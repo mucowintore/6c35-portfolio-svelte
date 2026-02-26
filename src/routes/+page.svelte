@@ -1,2 +1,16 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<svelte:head>
+  <title>Muco: Personal site and portfolio</title>
+</svelte:head>
+
+<main>
+  <h1>Muco</h1>
+  <nav aria-label="Primary">
+    <a class="current" href=".">Home</a>
+    <a href="projects">Projects</a>
+    <a href="contact">Contact</a>
+    <a href="resume">Resume</a>
+    <a href="https://github.com/mucowintore" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </nav>
+  <p>I am Muco and this is my portfolio website. Stay tuned for awesome content coming up!</p>
+  <img src="/images/profile.jpg" alt="A mind-blowingly awesome profile photo" />
+</main>
