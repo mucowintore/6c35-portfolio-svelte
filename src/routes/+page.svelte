@@ -1,3 +1,7 @@
+<script>
+  import { base } from '$app/paths';
+</script>
+
 <svelte:head>
   <title>Muco: Personal site and portfolio</title>
 </svelte:head>
@@ -12,5 +16,5 @@
     <a href="https://github.com/mucowintore" target="_blank" rel="noopener noreferrer">GitHub</a>
   </nav>
   <p>I am Muco and this is my portfolio website. Stay tuned for awesome content coming up!</p>
-  <img src="/images/profile.jpg" alt="A mind-blowingly awesome profile photo" />
+  <img src="{base}/images/profile.jpg" alt="Portrait of Muco" />
 </main>
