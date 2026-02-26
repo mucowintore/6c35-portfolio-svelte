@@ -10,7 +10,7 @@
   <title>Muco: Personal site and portfolio</title>
 </svelte:head>
 
-<main>
+<main class="home-page">
   <h1>Muco</h1>
   <nav aria-label="Primary">
     <a class="current" href=".">Home</a>
@@ -19,20 +19,26 @@
     <a href="resume">Resume</a>
     <a href="https://github.com/mucowintore" target="_blank" rel="noopener noreferrer">GitHub</a>
   </nav>
-  <p>I am Muco and this is my portfolio website. Stay tuned for awesome content coming up!</p>
-  <img src="{base}/images/profile.jpg" alt="Portrait of Muco" />
+  <section>
+    <p>I am Muco and this is my portfolio website. Stay tuned for awesome content coming up!</p>
+    <img src="{base}/images/profile.jpg" alt="Portrait of Muco" />
+  </section>
 
-  <h2>Latest Projects</h2>
-  <div class="projects highlights">
-    {#each projects.slice(0, 3) as p}
-      <Project data={p} />
-    {/each}
-  </div>
+  <section>
+    <h2>Latest Projects</h2>
+    <div class="projects highlights">
+      {#each projects.slice(0, 3) as p}
+        <Project data={p} />
+      {/each}
+    </div>
+  </section>
 
-  <h2>What I’m Reading</h2>
-  <div class="projects reading-list">
-    {#each reading as item}
-      <ReadingItem data={item} />
-    {/each}
-  </div>
+  <section>
+    <h2>What I’m Reading</h2>
+    <div class="projects reading-list">
+      {#each reading as item}
+        <ReadingItem data={item} />
+      {/each}
+    </div>
+  </section>
 </main>

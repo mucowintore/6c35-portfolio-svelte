@@ -141,3 +141,7 @@ img {
 .resume-page .education-item > p {
   margin: 0.1rem 0;
 }
+
+.home-page section + section {
+  margin-top: 2rem;
+}
