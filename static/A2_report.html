@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Vis & Society Assignment 2</title>
+	<link rel="stylesheet" href="https://vis-society.github.io/assignments/report.css" />
+	<style>
+		main p,
+		main li > p {
+			font-size: 1.05rem;
+			line-height: 1.7;
+		}
+
+		main figcaption {
+			font-size: 1rem;
+			line-height: 1.65;
+		}
+
+		main figure > img {
+			display: block;
+			width: min(100%, 64rem);
+			margin-inline: auto;
+		}
+
+		main figure.stacked-figure img + img {
+			margin-top: 1rem;
+		}
+
+		main figure.stacked-figure > img {
+			width: min(100%, 42rem);
+		}
+
+		main figure.stacked-figure > img:nth-of-type(2) {
+			width: min(100%, 50rem);
+		}
+
+		main ol.intro-questions > li {
+			font-size: 1.05rem;
+			line-height: 1.6;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>
+			<small>Assignment 2</small>
+			Exploratory Data Analysis
+		</h1>
+
+		<p>
+			<strong>Jean-Michel Mucowintore</strong> — <em>muco@mit.edu</em>
+		</p>
+	</header>
+	<main>
+		<section>
+			<h2>Subtheme: Speculation</h2>
+
+			<h3>Overall Analysis Questions</h3>
+				<p>My interest in speculative activity in housing markets was initially sparked by reporting on the growing role of investors in residential real estate. In particular, <a href="https://www.propublica.org/article/when-private-equity-becomes-your-landlord">a ProPublica article</a> highlighted how corporate and investor purchases have expanded across many U.S. housing markets, raising concerns about affordability and the availability of homes for typical buyers.</p>
+
+				<p>At the same time, this phenomenon is personally striking to me because it contrasts sharply with my own experience growing up in Burundi, where homeownership is overwhelmingly dominated by non-investors and the idea of homes being frequently bought and resold for profit is relatively uncommon.</p>
+
+				<p>Seeing how prominent this form of investment has become in cities like Boston made me curious to understand how widespread speculative activity actually is, who participates in it, and where it tends to occur within the housing market. This analysis explores the following questions using residential transaction data for Boston between 2000 and 2023:</p>
+			<ol class="intro-questions">
+				<li>How has short-term speculative flipping activity evolved in Boston from 2000 to 2023?</li>
+				<li>Which types of investors are driving speculative activity in Boston’s housing market?</li>
+				<li>Is speculative activity concentrated in particular neighborhoods or segments of the Boston housing market?</li>
+			</ol>
+		</section>
+
+		<section>
+			<h2>Dataset Overview</h2>
+
+			<figure>
+				<img src="images/a2/1_transactions_per_year.png" alt="Transactions per year" />
+				<figcaption>
+				My first step was to examine the number of residential sales per year to get a sense of how overall market activity has evolved and whether major economic shocks are visible in the data. The figure shows a clear expansion phase in the early 2000s that peaks around 2004, followed by a sharp contraction in 2008–2009 that aligns with the global financial crisis. Transaction activity partially recovers in the early 2010s but never returns to the levels seen before the crash. A noticeable dip appears again in 2020, likely reflecting disruptions from the COVID-19 pandemic, followed by a rebound in 2021. Overall, the figure highlights how Boston’s housing market experienced significant shifts around major economic events, with long-term transaction volume remaining below its mid-2000s peak.
+				</figcaption>
+			</figure>
+
+			<figure>
+				<img src="images/a2/2_sale_price_distribution_log.png" alt="Sale price distribution on a log scale" />
+				<figcaption>
+				Next, I examine the distribution of residential sale prices. The raw dataset contains transactions well below $10,000, including some $1 sales, which likely represent non-market transfers. Transactions below $10,000 were therefore excluded when preparing the chart. A standard histogram shows a highly right-skewed distribution, with most transactions clustered in lower price ranges and a small number of very expensive sales stretching the upper tail. Because these extreme values compress most of the distribution along the horizontal axis, a log transformation of sale price was applied to make the structure of the data easier to interpret. On the log scale, most transactions appear concentrated in the mid-range of the market. The median sale price is approximately $640,000, while the 95th percentile is about $3.65 million, indicating that the vast majority of residential transactions occur well below ultra-luxury price levels.
+				</figcaption>
+			</figure>
+
+			<figure>
+				<img src="images/a2/3_investor_type_distribution.png" alt="Investor type distribution" />
+				<figcaption>
+				After establishing overall market activity and price patterns, the next step is to examine who is purchasing homes. This figure shows how the composition of buyers has changed over time. The share of non-investor purchases declines from roughly 80% in the early 2000s to a low of about 63% in 2019, suggesting that investors became increasingly active during this period. Much of this increase appears to be driven by small and medium investors, whose shares grow steadily through the 2010s. Large investors expand more modestly, while institutional investors remain a relatively small and somewhat volatile portion of total purchases. Overall, the figure suggests that investor participation increased gradually through the 2010s before stabilizing or slightly reversing after 2020.
+				</figcaption>
+			</figure>
+
+				<figure class="stacked-figure">
+					<img src="images/a2/4_1_flip_rate.png" alt="Flip rate" />
+					<img src="images/a2/4_2_flip_term_distribution.png" alt="Flip term distribution" />
+					<figcaption>
+						In addition to buyer type, the dataset includes variables that capture resale behavior through a binary flip indicator and a categorized holding period. A transaction is classified as a flip when a property is resold within two years of purchase. Flip terms are defined as short-term (less than 6 months), medium-term (6–12 months), and long-term (12–24 months). Across the full sample, flipped transactions account for approximately 3–4% of all residential sales. Among these, most are categorized as long-term flips (about 65%), while medium- and short-term flips make up smaller shares. These variables allow us to distinguish between rapid resale activity and properties held for longer periods in the analysis that follows.
+
+					</figcaption>
+				</figure>
+		</section>
+		<section>
+			<h2>Analysis Questions</h2>
+			<h3>Question 1: How has short-term speculative flipping activity evolved in Boston from 2000 to 2023?</h3>
+			<figure>
+				<img src="images/a2/Q1.1_flip_rate_over_time.png" alt="" />
+				<figcaption>
+				To understand how flipping activity has evolved over time, this figure plots the share of residential transactions that qualify as flips, defined as properties resold within 24 months of purchase. Flipping activity is extremely rare before 2011, generally remaining below 0.6% of transactions between 2000 and 2010. Beginning in 2011, however, the flip rate rises sharply, reaching roughly 5% and continuing to increase to around 9% by 2014–2016, the peak period in the dataset. After 2016 the rate declines somewhat but remains substantially higher than in the early 2000s, fluctuating between about 5% and 7% through 2022. Overall, the figure shows a clear rise in short-horizon resale activity beginning in the early 2010s.
+				</figcaption>
+			</figure>
+
+			<figure>
+				<img src="images/a2/Q1.2_flip_term_composition_over_time.png" alt="" />
+				<figcaption>
+					Figure 6 shows how the holding periods of flipped properties are distributed over time, using the short-, medium-, and long-term definitions introduced in Figure 4. Across most years after 2011, the majority of flips occur in the 12–24 month range, typically accounting for about 60–70% of flips. Medium-term flips represent roughly 20–30%, while very rapid flips within six months remain relatively uncommon, usually below 20% of flips in most years. This pattern suggests that many flipped properties are held long enough for renovations, cost reductions, or other changes intended to increase resale value rather than being resold almost immediately.
+				</figcaption>
+			</figure>
+
+			<h3>Question 2: Are investors more likely to flip properties than non-investors?</h3>
+			<figure>
+				<img src="images/a2/Q2.1_flip_rate_by_investor_type.png" alt="" />
+				<figcaption>
+				Figure 7 shows the share of purchases that are resold within two years for each buyer type between 2011 and 2022. Large investors have the highest flip rate at about 7.8%, followed by medium investors (~7.7%) and small investors (~7.0%). Non-investors flip slightly less often at around 6.7%, while institutional investors have the lowest rate at roughly 4.2%. Overall, investors appear somewhat more likely to flip properties than typical homebuyers, although the differences are not very large.
+				</figcaption>
+			</figure>
+
+			<figure>
+				<img src="images/a2/Q2.2_flip_distribution_by_investor_type.png" alt="" />
+				<figcaption>
+				Although investors flip properties at slightly higher rates, Figure 8 shows that most flips are carried out by non-investors. Between 2011 and 2022, non-investors account for roughly 65–70% of all flipped transactions, largely because they still represent the majority of home purchases overall. Small investors make up about 15–20% of flips, while medium and large investors account for smaller shares. Institutional investors appear only occasionally and represent a very small portion of flipping activity.
+				</figcaption>
+			</figure>
+
+			<h3>Question 3: Is speculative activity concentrated in particular neighborhoods or segments of the Boston housing market?</h3>
+			<figure>
+				<img src="images/a2/Q3.1 Flip Rate by ZIP code.png" alt="" />
+				<figcaption>
+				To explore whether flipping activity varies across locations, the flip rate was calculated for each ZIP code as the share of transactions classified as flips. ZIP codes with fewer than 200 transactions were excluded to avoid unstable estimates driven by very small sample sizes. Flip rates vary moderately across ZIP codes, ranging from about 2% to roughly 5.5%. While flipping occurs throughout the city, some ZIP codes show noticeably higher rates, suggesting localized pockets of speculative activity within Boston’s housing market.
+				</figcaption>
+			</figure>
+
+			<figure>
+				<img src="images/a2/Q3.2 Cash Sale Rate by ZIP code.png" alt="" />
+				<figcaption>
+				To complement the previous figure, this chart shows the share of transactions conducted as cash purchases for each ZIP code. ZIP codes with fewer than 200 transactions were again excluded to ensure more reliable estimates. Cash purchase rates vary widely across ZIP codes, ranging from roughly 20% to nearly 70%. In particular, ZIP code 02199 stands out with a much higher share of cash purchases. Together with the flip rate patterns shown above, these results suggest that investor-style transactions are unevenly distributed across different parts of Boston’s housing market.
+				</figcaption>
+			</figure>
+		</section>
+		<section>
+			<h2>Summary</h2>
+
+			<p>This analysis explored how speculative resale activity has evolved in Boston’s housing market over the past two decades and which types of buyers appear most involved. Several key patterns emerge from the data.</p>
+
+			<p>First, overall market activity reflects major economic cycles. Residential transaction volume expanded in the early 2000s before declining sharply during the 2008 financial crisis. Although activity recovered in the following decade, total transaction levels never returned to their mid-2000s peak. A similar though shorter disruption appears during the COVID-19 pandemic in 2020.</p>
+
+			<p>Second, the composition of buyers has shifted over time. The share of purchases made by non-investors declined through the 2010s, while participation by small and medium investors gradually increased. Although institutional investors receive considerable public attention, they remain a relatively small portion of total transactions in this dataset. This finding was somewhat surprising, as it seems to run counter to the common narrative of large corporate investors dominating residential real estate markets. One possible explanation is that institutional investor activity may occur through less visible channels, such as partnerships or other entities that do not clearly identify as institutional buyers in the data. This possibility was suggested in the talk given by MAPC representatives earlier this week.</p>
+
+			<p>Third, flipping activity itself increased noticeably beginning in the early 2010s. While flipped transactions still represent a small share of the overall market—around 5–9% in recent years—the increase marks a clear change compared with the early 2000s, when flipping was almost nonexistent. Most flips occur with holding periods between 12 and 24 months, suggesting that many investors hold properties long enough to renovate or otherwise reposition them before resale.</p>
+
+			<p>Finally, speculative activity appears unevenly distributed across both buyer types and geographic areas. Investors flip properties somewhat more often than non-investors, though non-investors still account for the majority of flipped transactions because they represent most home purchases overall. At the neighborhood level, flip rates and cash purchase rates vary across ZIP codes, indicating that speculative activity may be concentrated in particular segments of the housing market.</p>
+
+			<p>Taken together, these patterns suggest that while speculative resale remains a relatively small share of Boston’s housing market, its presence increased significantly during the 2010s and appears unevenly distributed across buyers and locations. Understanding how these patterns interact with housing affordability and neighborhood change remains an important question for future research.</p>
+		</section>
+	</main>
+</body>
+</html>
