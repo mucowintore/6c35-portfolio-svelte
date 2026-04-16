@@ -3,18 +3,18 @@
   import projects from '$lib/projects.json';
 
   let scrollyProgress = 0;
-  let sorted_projects = [...projects].sort((a, b) => a.year - b.year);
-  let progressPerProject = 100 / sorted_projects.length;
+  let sortedProjects = [...projects].sort((a, b) => a.year - b.year);
+  let progressPerProject = 100 / sortedProjects.length;
   $: activeProjectIdx = Math.min(
-    sorted_projects.length - 1,
+    sortedProjects.length - 1,
     Math.floor(scrollyProgress / progressPerProject)
   );
-  $: activeProject = sorted_projects[activeProjectIdx];
+  $: activeProject = sortedProjects[activeProjectIdx];
 </script>
 
 <div class="scrolly-wrapper">
   <Scrolly bind:progress={scrollyProgress}>
-    {#each sorted_projects as project}
+    {#each sortedProjects as project}
       <section class="step">
         <div class="step-content">
           <h3>{project.year} · {project.title}</h3>

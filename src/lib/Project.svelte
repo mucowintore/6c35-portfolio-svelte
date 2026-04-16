@@ -4,22 +4,21 @@
 
 <article>
   <h2>{data.title}</h2>
-  <img src={data.image} alt="" />
   <p class="year">{data.year}</p>
-  <p>{data.description}</p>
+  <p class="description">{data.description}</p>
   {#if data.url}
     <p class="link-row">
-      <a href={data.url} target="_blank" rel="noreferrer">Open project</a>
+      <a href={data.url} target="_blank" rel="noreferrer">Explore project</a>
     </p>
   {/if}
+  <img src={data.image} alt="" />
 </article>
 
 <style>
   article {
-    display: grid;
-    grid-template-rows: subgrid;
-    grid-row: span 3;
-    gap: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45em;
     padding: 0.75em;
     border: 1px solid #ddd;
     border-radius: 0.5em;
@@ -36,7 +35,12 @@
     color: color-mix(in oklch, currentColor, canvas 35%);
   }
 
+  .description {
+    margin: 0;
+  }
+
   img {
+    margin-top: 0.2rem;
     max-width: 100%;
     height: auto;
   }
